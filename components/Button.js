@@ -1,7 +1,39 @@
 import React from 'react';
-import {asset, Image, View, VrButton} from 'react-vr';
+import {Animated, asset, Image, View, VrButton} from 'react-vr';
+
+const Easing = require('Easing');
 
 class Button extends React.Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      animatedTranslation: new Animated.Value(0),
+    };
+  }
+
+  animateIn = () => {
+    Animated.timing(
+      this.state.animatedTranslation,
+      {
+        toValue: 0.125,
+        duration: 100,
+        easing: Easing.in,
+      }
+    ).start();
+  }
+
+  animateOut = () => {
+    Animated.timing(
+      this.state.animatedTranslation,
+      {
+        toValue: 0,
+        duration: 100,
+        easing: Easing.in,
+      }
+    ).start();
+  }
 
   onButtonClick = () => {
     this.props.onClick();
@@ -9,13 +41,20 @@ class Button extends React.Component {
 
   render(){
     return(
-      <View style = {{
+      <Animated.View style = {{
         alignItems: 'centar',
         flexDirection: 'row',
         margin: 0.0125,
+        transform: [
+          {translateZ: this.state.animatedTranslation},
+        ],
         width: 0.7
       }}>
-        <VrButton onClick={this.onButtonClick}>
+        <VrButton 
+            onClick={this.onButtonClick}
+            onEnter={this.animateIn}
+            onExit={this.animateOut}
+          >
           <Image style={{
             width: 0.7,
             height: 0.7,
@@ -24,7 +63,7 @@ class Button extends React.Component {
 
           </Image>
         </VrButton>
-      </View>
+      </Animated.View>
     );
   }
 };
