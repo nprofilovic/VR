@@ -3,7 +3,7 @@ import {asset, Image, View, VrButton} from 'react-vr';
 
 class Button extends React.Component {
 
-  onButtonClick(){
+  onButtonClick = () => {
     this.props.onClick();
   }
 
@@ -15,8 +15,18 @@ class Button extends React.Component {
         margin: 0.0125,
         width: 0.7
       }}>
+        <VrButton onClick={this.onButtonClick}>
+          <Image style={{
+            width: 0.7,
+            height: 0.7,
+          }} 
+          source={asset(this.props.src)} >
 
+          </Image>
+        </VrButton>
       </View>
     );
   }
-}
+};
+
+export default Button;
